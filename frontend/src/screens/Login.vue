@@ -32,8 +32,8 @@
             handleSubmit(e){
                 e.preventDefault();
                 if (this.password.length > 0) {
-                    this.$http.post('http://localhost:3000/login', {
-                        email: this.email,
+                    this.$http.post('http://127.0.0.1:8000/api/users/token', {
+                        username: this.email,
                         password: this.password
                     })
                         .then(response => {
