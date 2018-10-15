@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import HelloWorld from '@/components/HelloWorld'
 import ScreenLogin from '@/screens/Login'
+import store from '@/store'
 
 Vue.use(Router);
 
@@ -27,8 +28,11 @@ let router = new Router({
 });
 
 router.beforeEach((to, from, next) => {
+    if (store.getters['session/isExpired']) {
+        store.dispatch('session/refreshToken');
+    }
     if (to.matched.some(record => record.meta.requiresAuth)) {
-        if (localStorage.getItem('jwt') == null) {
+        if (store.state.session.accessToken == null) {
             next({
                 path: '/login',
                 params: { nextUrl: to.fullPath }
