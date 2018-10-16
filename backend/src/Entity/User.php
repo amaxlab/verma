@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -85,6 +86,12 @@ class User implements UserInterface
     private $roles = [];
 
     /**
+     * @var ProjectAccess[]
+     * @ORM\OneToMany(targetEntity="ProjectAccess", mappedBy="user")
+     */
+    private $projects;
+
+    /**
      * @var \DateTime
      * @ORM\Column(name="created_at", type="datetimetz")
      * @Gedmo\Timestampable(on="create")
@@ -98,6 +105,14 @@ class User implements UserInterface
      * @Groups({"user:read"})
      */
     private $enabled;
+
+    /**
+     * User constructor.
+     */
+    public function __construct()
+    {
+        $this->projects = new ArrayCollection();
+    }
 
     /**
      * @return null|string
