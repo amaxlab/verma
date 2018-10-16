@@ -1,7 +1,10 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import HelloWorld from '@/components/HelloWorld'
-import ScreenLogin from '@/screens/Login'
+import Login from '../screens/Login'
+import Dashboard from '../screens/Dashboard'
+import Users from '../screens/Users'
+import UserView from '../screens/UserView'
+import Projects from '../screens/Projects'
 import store from '@/store'
 
 Vue.use(Router);
@@ -10,8 +13,32 @@ let router = new Router({
     routes: [
         {
             path: '/',
-            name: 'HelloWorld',
-            component: HelloWorld,
+            name: 'dashboard',
+            component: Dashboard,
+            meta: {
+                requiresAuth: true
+            }
+        },
+        {
+            path: '/projects',
+            name: 'projects',
+            component: Projects,
+            meta: {
+                requiresAuth: true
+            }
+        },
+        {
+            path: '/users/:id',
+            name: 'user_view',
+            component: UserView,
+            meta: {
+                requiresAuth: true
+            }
+        },
+        {
+            path: '/users',
+            name: 'users',
+            component: Users,
             meta: {
                 requiresAuth: true
             }
@@ -19,7 +46,7 @@ let router = new Router({
         {
             path: '/login',
             name: 'login',
-            component: ScreenLogin,
+            component: Login,
             meta: {
                 guest: true
             }
@@ -28,35 +55,17 @@ let router = new Router({
 });
 
 router.beforeEach((to, from, next) => {
-    if (store.getters['session/isExpired']) {
-        store.dispatch('session/refreshToken');
-    }
     if (to.matched.some(record => record.meta.requiresAuth)) {
-        if (store.state.session.accessToken == null) {
+        if (store.getters['session/isAuthenticated'] !== true) {
             next({
                 path: '/login',
                 params: { nextUrl: to.fullPath }
             })
         } else {
-            let user = JSON.parse(localStorage.getItem('user'));
-            if (to.matched.some(record => record.meta.is_admin)) {
-                if (user.is_admin === 1) {
-                    next()
-                } else {
-                    next({ name: 'userboard'})
-                }
-            } else {
-                next()
-            }
-        }
-    } else if (to.matched.some(record => record.meta.guest)) {
-        if (localStorage.getItem('jwt') == null){
-            next()
-        } else {
-            next({ name: 'userboard'})
+            next();
         }
     } else {
-        next()
+        next();
     }
 });
 

@@ -15,11 +15,16 @@ const getters = {
     isExpired() {
         //TODO make this implementation
         return false;
+    },
+    isAuthenticated: state => {
+        return true;
+        //state.payload.roles
     }
 };
 
 const actions = {
     login({ dispatch, commit }, { username, password }) {
+        // TODO make config
         axios.post('http://127.0.0.1:8000/api/users/token', {
             username: username,
             password: password
@@ -71,6 +76,8 @@ const mutations = {
 
         localStorage.removeItem('accessToken');
         localStorage.removeItem('refreshToken');
+
+        router.push('/login');
     }
 };
 
