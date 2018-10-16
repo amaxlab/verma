@@ -7,8 +7,8 @@
                     {key:'id', label: 'ID'},
                     {key:'username', label: 'Username'},
                     {key:'email', label: 'Email'},
-                    {key:'createdAt', label: 'Created At'},
-                    {key:'actions', label: 'Actions'}
+                    {key:'enabled', label: 'Enabled'},
+                    {key:'createdAt', label: 'Created At'}
                 ]"
                     ref="grid"
                     url="/api/users"

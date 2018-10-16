@@ -24,6 +24,10 @@
                 </slot>
             </template>
 
+            <template slot="enabled" slot-scope="row">
+                <b-badge :variant="row.item.enabled ? 'success' : 'danger'">{{row.item.enabled ? 'yes' : 'no'}}</b-badge>
+            </template>
+
             <template slot="createdAt" slot-scope="row">
                 {{moment(row.item.createdAt).fromNow()}}
             </template>

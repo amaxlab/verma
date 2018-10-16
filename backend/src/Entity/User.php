@@ -93,6 +93,13 @@ class User implements UserInterface
     private $createdAt;
 
     /**
+     * @var bool
+     * @ORM\Column(type="boolean", options={"default"=true})
+     * @Groups({"user:read"})
+     */
+    private $enabled;
+
+    /**
      * @return null|string
      */
     public function __toString()
@@ -234,6 +241,27 @@ class User implements UserInterface
     public function setCreatedAt(\DateTime $createdAt)
     {
         $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+
+    /**
+     * @return bool
+     */
+    public function isEnabled(): bool
+    {
+        return $this->enabled;
+    }
+
+    /**
+     * @param bool $enabled
+     *
+     * @return $this
+     */
+    public function setEnabled(bool $enabled)
+    {
+        $this->enabled = $enabled;
 
         return $this;
     }
