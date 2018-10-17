@@ -110,7 +110,8 @@
 
                 const promise = Axios.get('http://127.0.0.1:8000'+this.url, {
                     headers: {
-                        Accept: 'application/ld+json'
+                        Accept: 'application/ld+json',
+                        Authorization: 'bearer '+store.state.session.accessToken
                     },
                     params: params
                 });

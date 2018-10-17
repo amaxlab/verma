@@ -1,6 +1,8 @@
 import router from '../../router'
 import axios from 'axios'
 import jwt_decode from 'jwt-decode';
+import differenceInMilliSeconds from "date-fns/difference_in_milliseconds";
+import subtractMinutes from "date-fns/sub_minutes";
 
 const accessToken = localStorage.getItem('accessToken');
 const payload = accessToken ? jwt_decode(accessToken) : {};
@@ -19,11 +21,12 @@ const getters = {
     isAuthenticated: state => {
         return true;
         //state.payload.roles
-    }
+    },
+    isExpiredAt: state => new Date(state.payload.exp * 1000)
 };
 
 const actions = {
-    login({ dispatch, commit }, { username, password }) {
+    login({ dispatch, commit, getters }, { username, password }) {
         // TODO make config
         axios.post('http://127.0.0.1:8000/api/users/token', {
             username: username,
@@ -31,24 +34,37 @@ const actions = {
         })
         .then(response => {
             commit('successLogin', {accessToken: response.data.token, refreshToken:response.data.refresh_token});
+            setTimeout(function() {
+                dispatch('refreshToken')
+            }, differenceInMilliSeconds(subtractMinutes(getters.isExpiredAt, 10), new Date()));
+            router.push('/');
         })
         .catch(function (error) {
+            console.log(error);
             commit('failLogin');
         });
     },
-    refreshToken({ commit, state }) {
+    refreshToken({ commit, state, getters, dispatch}) {
+        if (!state.refreshToken) {
+            return;
+        }
         axios.post('http://127.0.0.1:8000/api/users/token/refresh', {
             refresh_token: state.refreshToken
         })
         .then(response => {
             commit('successLogin', {accessToken: response.data.token, refreshToken:response.data.refresh_token});
+            setTimeout(function() {
+                  dispatch('refreshToken')
+            }, differenceInMilliSeconds(subtractMinutes(getters.isExpiredAt, 10), new Date()));
         })
         .catch(function (error) {
+            console.log(error);
             commit('failLogin');
         });
     },
     logout({ commit }) {
         commit('logout');
+        router.push('/login');
     }
 };
 
@@ -60,8 +76,6 @@ const mutations = {
 
         localStorage.setItem('accessToken', accessToken);
         localStorage.setItem('refreshToken', refreshToken);
-
-        router.push('/');
     },
     failLogin(state) {
         state.accessToken = null;
@@ -76,8 +90,6 @@ const mutations = {
 
         localStorage.removeItem('accessToken');
         localStorage.removeItem('refreshToken');
-
-        router.push('/login');
     }
 };
 

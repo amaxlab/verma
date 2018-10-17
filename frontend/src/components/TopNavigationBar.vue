@@ -44,7 +44,7 @@
         },
         methods: {
             logout() {
-                store.commit('session/logout');
+                store.dispatch('session/logout');
             }
         }
     }

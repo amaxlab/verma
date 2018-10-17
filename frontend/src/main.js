@@ -9,10 +9,10 @@ import router from './router'
 import Axios from 'axios'
 import store from './store'
 
-Axios.defaults.headers.common['Authorization'] = 'bearer ' + localStorage.getItem('accessToken');
 Vue.prototype.$http = Axios;
 Vue.config.productionTip = false;
 Vue.use(BootstrapVue);
+store.dispatch('session/refreshToken');
 
 new Vue({
   el: '#app',
