@@ -4,7 +4,8 @@
             {key:'id', label: 'ID'},
             {key:'name', label: 'Name'},
             {key:'enabled', label: 'Enabled'},
-            {key:'updatedAt', label: 'Updated At'}
+            {key:'updatedAt', label: 'Updated At'},
+            {key:'actions', label: 'Actions'}
         ]"
             ref="grid"
             url="/api/projects"
