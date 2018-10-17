@@ -25,7 +25,7 @@
             </template>
 
             <template slot="enabled" slot-scope="row">
-                <b-badge :variant="row.item.enabled ? 'success' : 'danger'">{{row.item.enabled ? 'yes' : 'no'}}</b-badge>
+                <b-badge :variant="row.item.enabled ? 'success' : 'warning'">{{row.item.enabled ? 'YES' : 'NO'}}</b-badge>
             </template>
 
             <template slot="createdAt" slot-scope="row">

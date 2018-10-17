@@ -1,10 +1,13 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+
 import Login from '../screens/Login'
 import Dashboard from '../screens/Dashboard'
 import Users from '../screens/Users'
 import UserView from '../screens/UserView'
 import Projects from '../screens/Projects'
+import ProjectView from '../screens/ProjectView'
+
 import store from '@/store'
 
 Vue.use(Router);
@@ -23,6 +26,14 @@ let router = new Router({
             path: '/projects',
             name: 'projects',
             component: Projects,
+            meta: {
+                requiresAuth: true
+            }
+        },
+        {
+            path: '/projects/:id',
+            name: 'project_view',
+            component: ProjectView,
             meta: {
                 requiresAuth: true
             }

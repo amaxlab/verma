@@ -79,7 +79,7 @@ class Project
     /**
      * @var bool
      * @ORM\Column(type="boolean", options={"default"=true})
-     * @Groups({"project:read"})
+     * @Groups({"project:read", "project:write"})
      */
     private $enabled;
 
