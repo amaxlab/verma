@@ -33,6 +33,21 @@ const client = {
             store.commit('loader/hide');
             reject(error);
         });
+    }),
+    put: (url, data) => new Promise ((resolve, reject) => {
+        store.commit('loader/show');
+        axios.put(baseUrl+url, data, {
+            headers: {
+                Accept: 'application/ld+json',
+                Authorization: 'bearer '+store.state.session.accessToken
+            }
+        }).then(response => {
+            store.commit('loader/hide');
+            resolve(response.data);
+        }).catch(error => {
+            store.commit('loader/hide');
+            reject(error);
+        });
     })
 };
 

@@ -12,9 +12,19 @@
             defaultSortBy="name"
             :defaultSortDesc="true"
             @viewClick="viewProject"
-    ></DataGrid>
+            @enabledClick="enabledProject"
+    >
+        <template slot="actions" slot-scope="row">
+            <b-button-group size="sm">
+                <b-button variant="outline-primary" @click="viewProject(row.row.item)"><i class="fa fa-eye"></i></b-button>
+                <b-button variant="outline-primary" @click="editProject(row.row.item)"><i class="fa fa-pencil"></i></b-button>
+                <b-button variant="outline-danger" @click="deleteProject(row.row.item)" v-if="row.row.item.enabled === false"><i class="fa fa-trash"></i></b-button>
+            </b-button-group>
+        </template>
+    </DataGrid>
 </template>
 <script>
+    import api from '@/api/';
     import router from '@/router';
     import DataGrid from '../DataGrid';
 
@@ -23,7 +33,23 @@
             DataGrid
         },
         methods: {
-            viewProject: item => {router.push({name: 'project_view', params: {id: item.id}})}
+            editProject: item => {},
+            deleteProject: item => {
+                if (confirm('Are you sure delete '+item.name+'?')) {
+                    alert('deleted');
+                }
+            },
+            viewProject: item => {
+                router.push({name: 'project_view', params: {id: item.id}})
+            },
+            enabledProject: item => {
+                api.project.setEnabled(item.id, !item.enabled).then(project => {
+                    item.enabled = project.enabled;
+                    item.updatedAt = project.updatedAt;
+                }).catch(error => {
+                    console.log(error)
+                });
+            }
         }
     }
 </script>

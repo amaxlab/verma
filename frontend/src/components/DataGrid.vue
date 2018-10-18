@@ -20,12 +20,13 @@
                     <b-button-group size="sm">
                         <b-button variant="outline-primary" @click="viewClick(row.item)"><i class="fa fa-eye"></i></b-button>
                         <b-button variant="outline-primary" @click="editClick(row.item)"><i class="fa fa-pencil"></i></b-button>
+                        <b-button variant="outline-danger" @click="editClick(row.item)"><i class="fa fa-trash"></i></b-button>
                     </b-button-group>
                 </slot>
             </template>
 
             <template slot="enabled" slot-scope="row">
-                <b-badge :variant="row.item.enabled ? 'success' : 'warning'">{{row.item.enabled ? 'YES' : 'NO'}}</b-badge>
+                <b-badge :variant="row.item.enabled ? 'success' : 'warning'" @click="enabledClick(row.item)">{{row.item.enabled ? 'YES' : 'NO'}}</b-badge>
             </template>
 
             <template slot="createdAt" slot-scope="row">
@@ -93,6 +94,9 @@
             },
             viewClick(item) {
                 this.$emit('viewClick', item);
+            },
+            enabledClick(item) {
+                this.$emit('enabledClick', item);
             },
             refresh() {
                 this.$refs.grid.refresh();
