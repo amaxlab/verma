@@ -20,6 +20,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
  */
 class ProjectAccess
 {
+    const ROLE_OWNER = 'owner';
+
     /**
      * @var int
      * @ORM\Id()
