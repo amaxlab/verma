@@ -70,6 +70,7 @@ class UserService
     /**
      * @param User $user
      * @return User
+     * @throws EntitySaveException
      */
     public function create(User $user): User
     {
@@ -79,6 +80,7 @@ class UserService
     /**
      * @param User $user
      * @return User
+     * @throws EntitySaveException
      */
     public function update(User $user): User
     {
