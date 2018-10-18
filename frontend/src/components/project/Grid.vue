@@ -4,10 +4,10 @@
         <EditModal ref="editProjectModal" @projectDeleted="refreshGrid"></EditModal>
         <DataGrid
                 :fields="[
-                {key:'id', label: 'ID'},
-                {key:'name', label: 'Name'},
-                {key:'enabled', label: 'Enabled'},
-                {key:'updatedAt', label: 'Updated At'},
+                {key:'id', label: 'ID', sortable: true},
+                {key:'name', label: 'Name', sortable: true},
+                {key:'enabled', label: 'Enabled', sortable: true},
+                {key:'updatedAt', label: 'Updated At', sortable: true},
                 {key:'actions', label: 'Actions'}
             ]"
                 ref="grid"
