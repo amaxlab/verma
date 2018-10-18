@@ -48,6 +48,21 @@ const client = {
             store.commit('loader/hide');
             reject(error);
         });
+    }),
+    delete: (url) => new Promise ((resolve, reject) => {
+        store.commit('loader/show');
+        axios.delete(baseUrl+url, {
+            headers: {
+                Accept: 'application/ld+json',
+                Authorization: 'bearer '+store.state.session.accessToken
+            }
+        }).then(response => {
+            store.commit('loader/hide');
+            resolve(response.data);
+        }).catch(error => {
+            store.commit('loader/hide');
+            reject(error);
+        });
     })
 };
 
