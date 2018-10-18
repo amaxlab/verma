@@ -42,8 +42,10 @@ class Environment
 
     /**
      * @var Project
+     * @Assert\NotNull()
      * @ORM\ManyToOne(targetEntity="Project", inversedBy="environments")
      * @ORM\JoinColumn(name="project_id", onDelete="CASCADE", nullable=false)
+     * @Groups({"environment:write"})
      */
     private $project;
 
@@ -71,8 +73,9 @@ class Environment
 
     /**
      * @var bool
+     * @Assert\NotNull()
      * @ORM\Column(type="boolean", options={"default"=true})
-     * @Groups({"environment:read"})
+     * @Groups({"environment:read", "environment:write"})
      */
     private $enabled;
 

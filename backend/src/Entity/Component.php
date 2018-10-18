@@ -43,6 +43,7 @@ class Component
      * @var Project
      * @ORM\ManyToOne(targetEntity="Project", inversedBy="components")
      * @ORM\JoinColumn(name="project_id", onDelete="CASCADE", nullable=false)
+     * @Groups({"component:read", "component:write"})
      */
     private $project;
 
@@ -65,7 +66,7 @@ class Component
     /**
      * @var bool
      * @ORM\Column(type="boolean", options={"default"=true})
-     * @Groups({"component:read"})
+     * @Groups({"component:read", "component:write"})
      */
     private $enabled;
 

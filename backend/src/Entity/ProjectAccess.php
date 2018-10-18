@@ -43,12 +43,12 @@ class ProjectAccess
      * @var Project
      * @ORM\ManyToOne(targetEntity="Project", inversedBy="users")
      * @ORM\JoinColumn(name="project_id", onDelete="CASCADE")
-     * @Groups({"project_access:read"})
+     * @Groups({"project_access:write"})
      */
     private $project;
 
     /**
-     * @var Environment
+     * @var Environment|null
      * @ORM\ManyToOne(targetEntity="Environment", inversedBy="users")
      * @ORM\JoinColumn(name="environment_id", onDelete="CASCADE", nullable=true)
      * @Groups({"project_access:read"})
@@ -119,19 +119,19 @@ class ProjectAccess
     }
 
     /**
-     * @return Environment
+     * @return Environment|null
      */
-    public function getEnvironment(): Environment
+    public function getEnvironment(): ?Environment
     {
         return $this->environment;
     }
 
     /**
-     * @param Environment $environment
+     * @param Environment|null $environment
      *
      * @return $this
      */
-    public function setEnvironment(Environment $environment)
+    public function setEnvironment(?Environment $environment)
     {
         $this->environment = $environment;
 
