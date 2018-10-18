@@ -23,6 +23,9 @@
         methods: {
             getData() {
                 return this.project;
+            },
+            setData(data) {
+                this.project = data;
             }
         }
     }

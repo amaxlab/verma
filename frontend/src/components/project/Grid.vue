@@ -1,6 +1,7 @@
 <template>
     <div>
         <DeleteModal ref="deleteProjectModal" @projectDeleted="refreshGrid"></DeleteModal>
+        <EditModal ref="editProjectModal" @projectDeleted="refreshGrid"></EditModal>
         <DataGrid
                 :fields="[
                 {key:'id', label: 'ID'},
@@ -31,17 +32,19 @@
     import router from '@/router';
     import DataGrid from '../DataGrid';
     import DeleteModal from './DeleteModal';
+    import EditModal from "./EditModal";
 
     export default {
         components: {
+            EditModal,
             DataGrid, DeleteModal
         },
         methods: {
-            editProject() {
-
-            },
             refreshGrid() {
                 this.$refs.grid.refresh();
+            },
+            editProject(item) {
+                this.$refs.editProjectModal.show(item);
             },
             deleteProject(item) {
                 this.$refs.deleteProjectModal.show(item.id, item.name);
