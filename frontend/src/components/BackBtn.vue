@@ -1,7 +1,6 @@
 <template>
-    <b-button variant="link" @click="goBack"><i class="fa fa-chevron-left"></i></b-button>
+    <b-button class="btn-back" variant="link" @click="goBack"><i class="fa fa-chevron-left"></i></b-button>
 </template>
-
 <script>
     export default {
         methods: {
@@ -11,4 +10,8 @@
         }
     }
 </script>
-
+<style>
+    .btn-back {
+        margin-left: -37px;
+    }
+</style>
