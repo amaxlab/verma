@@ -2,8 +2,14 @@
     <Page>
         <template slot="content">
             <CreateModal ref="createProjectModal"></CreateModal>
-            <h1>Projects</h1>
-            <b-btn @click="openCreateModal">Create project</b-btn>
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
+                <h1 class="h1">Projects</h1>
+                <div class="btn-toolbar mb-2 mb-md-0">
+                    <div class="btn-group mr-2">
+                        <b-btn @click="openCreateModal" variant="success"><i class="fa fa-plus"></i> New</b-btn>
+                    </div>
+                </div>
+            </div>
             <Grid></Grid>
         </template>
     </Page>
