@@ -19,8 +19,7 @@
             return {
                 environment: {
                     name: '',
-                    enabled: true,
-                    project: this.projectId
+                    enabled: true
                 }
             }
         },

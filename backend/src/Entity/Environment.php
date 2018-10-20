@@ -6,6 +6,7 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -13,6 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @author Egor Zyuskin <ezyuskin@amaxlab.ru>
  * @ORM\Entity(repositoryClass="App\Repository\EnvironmentRepository")
  * @ORM\Table(name="environments")
+ * @UniqueEntity(fields={"name", "project"}, errorPath="name")
  * @ApiResource(
  *     attributes={
  *          "normalization_context"={"groups"={"environment:read"}},
@@ -33,7 +35,7 @@ class Environment
 
     /**
      * @var string
-     * @ORM\Column(name="name", type="string", length=191, unique=true)
+     * @ORM\Column(name="name", type="string", length=191)
      * @Assert\NotBlank()
      * @Assert\Length(min="3", max="191")
      * @Groups({"environment:read", "environment:write"})
