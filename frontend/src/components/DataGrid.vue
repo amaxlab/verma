@@ -26,7 +26,7 @@
             </template>
 
             <template slot="enabled" slot-scope="row">
-                <b-badge :variant="row.item.enabled ? 'success' : 'warning'" @click="enabledClick(row.item)">{{row.item.enabled ? 'YES' : 'NO'}}</b-badge>
+                <BtnEnabledDisabled v-model="row.item.enabled" @click="enabledClick(row.item)"></BtnEnabledDisabled>
             </template>
 
             <template slot="createdAt" slot-scope="row">
@@ -52,9 +52,11 @@
     import Axios from 'axios';
     import moment from 'moment';
     import store from '../store';
+    import BtnEnabledDisabled from "./BtnEnabledDisabled";
 
     export default {
         name: 'b-grid',
+        components: {BtnEnabledDisabled},
         props: {
             fields: Array,
             url: String,
