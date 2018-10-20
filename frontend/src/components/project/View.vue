@@ -1,6 +1,6 @@
 <template>
     <div>
-        <CreateEvironmentModal ref="createEnvironmentModal" :project-id="project['@id']" @created="onEnvironmentCreated"></CreateEvironmentModal>
+        <CreateEvironmentModal ref="createEnvironmentModal" :project-id="this.project['@id']" @created="onEnvironmentCreated"></CreateEvironmentModal>
         <h1><back-btn></back-btn>{{project.name}}</h1>
         <table class="table table-borderless">
             <tr>
@@ -92,7 +92,7 @@
             BackBtn, Gravatar
         },
         props: {
-            projectId: Number,
+            projectId: String,
         },
         data() {
             return {

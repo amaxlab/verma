@@ -1,6 +1,6 @@
 <template>
     <b-modal ref="modal" title="Create environment" @ok="handleOk">
-        <Form ref="form" v-model="this.project"></Form>
+        <Form ref="form" v-model="this.environment"></Form>
     </b-modal>
 </template>
 
@@ -17,7 +17,7 @@
         },
         data() {
             return {
-                project: {
+                environment: {
                     name: '',
                     enabled: true,
                     project: this.projectId
@@ -30,7 +30,8 @@
             },
             handleOk(evt) {
                 evt.preventDefault();
-                api.environment.create(this.project).then(environment => {
+                this.environment.project = this.projectId;
+                api.environment.create(this.environment).then(environment => {
                     this.$emit('created', environment);
                     this.$refs.modal.hide();
                 }).catch(error => {

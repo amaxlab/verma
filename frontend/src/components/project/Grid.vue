@@ -50,7 +50,7 @@
                 this.$refs.deleteProjectModal.show(item.id, item.name);
             },
             viewProject(item){
-                router.push({name: 'project_view', params: {id: item.id}})
+                router.push({name: 'project_view', params: {id: item.id.toString()}})
             },
             enabledProject(item) {
                 api.project.setEnabled(item.id, !item.enabled).then(project => {

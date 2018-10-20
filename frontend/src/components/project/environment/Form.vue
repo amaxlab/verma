@@ -1,7 +1,7 @@
 <template>
     <b-form>
         <b-form-group label="Name" label-for="name">
-            <b-form-input id="name" type="text" v-model="environment.name" required placeholder="Enter project name"></b-form-input>
+            <b-form-input id="name" type="text" v-model="environment.name" required placeholder="Enter environment name"></b-form-input>
         </b-form-group>
         <b-form-group label="Enabled" label-for="enabled">
             <SelectYesNo v-model="environment.enabled"></SelectYesNo>
@@ -20,6 +20,6 @@
             return {
                 environment: this.value
             };
-        },
+        }
     }
 </script>
