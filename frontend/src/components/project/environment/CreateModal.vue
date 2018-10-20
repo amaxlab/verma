@@ -1,6 +1,6 @@
 <template>
     <b-modal ref="modal" title="Create environment" @ok="handleOk">
-        <Form ref="form"></Form>
+        <Form ref="form" v-model="this.project"></Form>
     </b-modal>
 </template>
 
@@ -9,23 +9,28 @@
     import Form from './Form';
 
     export default  {
+        props: {
+            projectId: String
+        },
         components: {
             Form
         },
         data() {
             return {
-                projectId: ''
+                project: {
+                    name: '',
+                    enabled: true,
+                    project: this.projectId
+                }
             }
         },
         methods: {
-            show(projectId) {
-                this.projectId = projectId;
+            show() {
                 this.$refs.modal.show();
             },
             handleOk(evt) {
                 evt.preventDefault();
-                const {name, enabled} = this.$refs.form.getData();
-                api.environment.create({name, enabled, project: this.projectId}).then(environment => {
+                api.environment.create(this.project).then(environment => {
                     this.$emit('created', environment);
                     this.$refs.modal.hide();
                 }).catch(error => {

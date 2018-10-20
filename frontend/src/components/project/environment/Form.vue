@@ -13,22 +13,13 @@
     import SelectYesNo from "../../SelectYesNo";
     export default {
         components: {SelectYesNo},
+        props: {
+            value: Object
+        },
         data() {
             return {
-                environment: {enabled: true},
-                yesNo: [
-                    {text: 'yes', value: true},
-                    {text: 'no', value: false}
-                ]
+                environment: this.value
             };
         },
-        methods: {
-            getData() {
-                return this.environment;
-            },
-            setData(data) {
-                this.environment = data;
-            }
-        }
     }
 </script>

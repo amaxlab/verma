@@ -1,6 +1,6 @@
 <template>
     <div>
-        <CreateEvironmentModal ref="createEnvironmentModal" @created="onEnvironmentCreated"></CreateEvironmentModal>
+        <CreateEvironmentModal ref="createEnvironmentModal" :project-id="project['@id']" @created="onEnvironmentCreated"></CreateEvironmentModal>
         <h1><back-btn></back-btn>{{project.name}}</h1>
         <table class="table table-borderless">
             <tr>
@@ -109,7 +109,7 @@
         methods: {
             moment,
             createEnvironment() {
-                this.$refs.createEnvironmentModal.show(this.project['@id']);
+                this.$refs.createEnvironmentModal.show();
             },
             onEnvironmentCreated(env) {
                 this.project.environments.push(env);
