@@ -1,6 +1,8 @@
 <template>
     <div>
-        <CreateEvironmentModal ref="createEnvironmentModal" :project-id="this.project['@id']" @created="onEnvironmentCreated"></CreateEvironmentModal>
+        <CreateEnvironmentModal ref="createEnvironmentModal" :project-id="this.project['@id']" @created="onEnvironmentCreated"></CreateEnvironmentModal>
+        <EditEnvironmentModal ref="updateEnvironmentModal" @updated="onEnvironmentUpdate"></EditEnvironmentModal>
+        <DeleteEnvironmentModal ref="deleteEnvironmentModal" @deleted="onEnvironmentDelete"></DeleteEnvironmentModal>
         <h1><back-btn></back-btn>{{project.name}}</h1>
         <table class="table table-borderless">
             <tr>
@@ -45,18 +47,25 @@
                 <th>Name</th>
                 <th>Enabled</th>
                 <th>Created At</th>
+                <th>Actions</th>
             </tr>
             <tr v-for="environment in project.environments">
                 <td>{{environment.name}}</td>
                 <td><BtnEnabledDisabled v-model="environment.enabled" @click="onEnvironmentEnabledClick(environment)"></BtnEnabledDisabled></td>
                 <td>{{moment(environment.createdAt).fromNow()}}</td>
+                <td>
+                    <b-button-group size="sm">
+                        <b-button variant="outline-primary" @click="updateEnvironment(environment)"><i class="fa fa-pencil"></i></b-button>
+                        <b-button v-if="environment.enabled === false" variant="outline-danger" @click="deleteEnvironment(environment)"><i class="fa fa-trash"></i></b-button>
+                    </b-button-group>
+                </td>
             </tr>
         </table>
         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
             <h1 class="h2">Components</h1>
             <div class="btn-toolbar mb-2 mb-md-0">
                 <div class="btn-group mr-2">
-                    <button type="button" class="btn btn-success"><i class="fa fa-plus"></i> Add </button>
+                    <button type="button" class="btn btn-success" @click="createComponent"><i class="fa fa-plus"></i> Add </button>
                 </div>
             </div>
         </div>
@@ -82,13 +91,15 @@
     import Gravatar from 'vue-gravatar';
     import moment from 'moment';
     import BackBtn from '../BackBtn';
-    import CreateEvironmentModal from "./environment/CreateModal";
+    import CreateEnvironmentModal from "./environment/CreateModal";
+    import EditEnvironmentModal from "./environment/EditModal";
+    import DeleteEnvironmentModal from "./environment/DeleteModal";
     import BtnEnabledDisabled from "../BtnEnabledDisabled";
 
     export default {
         components: {
+            CreateEnvironmentModal, EditEnvironmentModal, DeleteEnvironmentModal,
             BtnEnabledDisabled,
-            CreateEvironmentModal,
             BackBtn, Gravatar
         },
         props: {
@@ -111,8 +122,26 @@
             createEnvironment() {
                 this.$refs.createEnvironmentModal.show();
             },
+            updateEnvironment(environment) {
+                this.$refs.updateEnvironmentModal.show(environment);
+            },
+            deleteEnvironment(environment) {
+                this.$refs.deleteEnvironmentModal.show(environment);
+            },
             onEnvironmentCreated(env) {
                 this.project.environments.push(env);
+            },
+            onEnvironmentUpdate(env) {
+                const id = this.project.environments.findIndex(x => x.id === env.id);
+                if (id >= 0) {
+                    this.project.environments[id] = env;
+                }
+            },
+            onEnvironmentDelete(environmentId) {
+                const id = this.project.environments.findIndex(x => x.id === environmentId);
+                if (id >= 0) {
+                    this.project.environments.splice(id, 1);
+                }
             },
             onEnvironmentEnabledClick(environment) {
                 api.environment.setEnabled(environment.id, environment.enabled).then(env => {
@@ -120,7 +149,11 @@
                 }).catch(error => {
                     console.log(error);
                 });
-            }
+            },
+            createComponent() {
+                this.project.environments[1].enabled = false;
+            },
+
         }
     }
 </script>

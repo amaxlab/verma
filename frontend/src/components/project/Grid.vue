@@ -53,7 +53,7 @@
                 router.push({name: 'project_view', params: {id: item.id.toString()}})
             },
             enabledProject(item) {
-                api.project.setEnabled(item.id, !item.enabled).then(project => {
+                api.project.setEnabled(item.id, item.enabled).then(project => {
                     item.enabled = project.enabled;
                     item.updatedAt = project.updatedAt;
                 }).catch(error => {

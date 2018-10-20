@@ -9,24 +9,24 @@
                 default: true
             }
         },
-        data() {
-            return {
-                enabled: this.value
-            }
-        },
+        // data() {
+        //     return {
+        //         enabled: this.value
+        //     }
+        // },
         methods: {
             click() {
-                this.enabled = !this.enabled;
-                this.$emit('input', this.enabled);
-                this.$emit('click', this.enabled);
+                const enabled = !this.value;
+                this.$emit('input', enabled);
+                this.$emit('click', enabled);
             }
         },
         computed: {
             enabledText() {
-                return this.enabled ? 'YES' : 'NO';
+                return this.value ? 'YES' : 'NO';
             },
             enabledVariant() {
-                return this.enabled ? 'outline-success' : 'outline-warning';
+                return this.value ? 'outline-success' : 'outline-warning';
             }
         }
     }

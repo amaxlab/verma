@@ -20,6 +20,11 @@
             return {
                 environment: this.value
             };
+        },
+        methods: {
+            setData(data) {
+                this.environment = data;
+            }
         }
     }
 </script>
