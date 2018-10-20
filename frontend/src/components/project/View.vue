@@ -3,6 +3,9 @@
         <CreateEnvironmentModal ref="createEnvironmentModal" :project-id="this.project['@id']" @created="onEnvironmentCreated"></CreateEnvironmentModal>
         <EditEnvironmentModal ref="updateEnvironmentModal" @updated="onEnvironmentUpdate"></EditEnvironmentModal>
         <DeleteEnvironmentModal ref="deleteEnvironmentModal" @deleted="onEnvironmentDelete"></DeleteEnvironmentModal>
+        <CreateComponentModal ref="createComponentModal" :project-id="this.project['@id']" @created="onComponentCreated"></CreateComponentModal>
+        <EditComponentModal ref="updateComponentModal" @updated="onComponentUpdate"></EditComponentModal>
+        <DeleteComponentModal ref="deleteComponentModal" @deleted="onComponentDelete"></DeleteComponentModal>
         <h1><back-btn></back-btn>{{project.name}}</h1>
         <table class="table table-borderless">
             <tr>
@@ -71,16 +74,21 @@
         </div>
         <table class="table">
             <tr>
-                <th>ID</th>
                 <th>Name</th>
                 <th>Enabled</th>
                 <th>Created At</th>
+                <th>Actions</th>
             </tr>
             <tr v-for="component in project.components">
-                <td>{{component.id}}</td>
                 <td>{{component.name}}</td>
-                <td>{{component.enabled}}</td>
+                <td><BtnEnabledDisabled v-model="component.enabled" @click="onComponentEnabledClick(component)"></BtnEnabledDisabled></td>
                 <td>{{moment(component.createdAt).fromNow()}}</td>
+                <td>
+                    <b-button-group size="sm">
+                        <b-button variant="outline-primary" @click="updateComponent(component)"><i class="fa fa-pencil"></i></b-button>
+                        <b-button v-if="component.enabled === false" variant="outline-danger" @click="deleteComponent(component)"><i class="fa fa-trash"></i></b-button>
+                    </b-button-group>
+                </td>
             </tr>
         </table>
     </div>
@@ -94,11 +102,15 @@
     import CreateEnvironmentModal from "./environment/CreateModal";
     import EditEnvironmentModal from "./environment/EditModal";
     import DeleteEnvironmentModal from "./environment/DeleteModal";
+    import CreateComponentModal from "./component/CreateModal";
+    import EditComponentModal from "./component/EditModal";
+    import DeleteComponentModal from "./component/DeleteModal";
     import BtnEnabledDisabled from "../BtnEnabledDisabled";
 
     export default {
         components: {
             CreateEnvironmentModal, EditEnvironmentModal, DeleteEnvironmentModal,
+            CreateComponentModal, EditComponentModal, DeleteComponentModal,
             BtnEnabledDisabled,
             BackBtn, Gravatar
         },
@@ -151,9 +163,36 @@
                 });
             },
             createComponent() {
-                this.project.environments[1].enabled = false;
+                this.$refs.createComponentModal.show();
             },
-
+            updateComponent(component) {
+                this.$refs.updateComponentModal.show(component);
+            },
+            deleteComponent(component) {
+                this.$refs.deleteComponentModal.show(component);
+            },
+            onComponentCreated(env) {
+                this.project.components.push(env);
+            },
+            onComponentUpdate(env) {
+                const id = this.project.components.findIndex(x => x.id === env.id);
+                if (id >= 0) {
+                    this.project.components[id] = env;
+                }
+            },
+            onComponentDelete(componentId) {
+                const id = this.project.components.findIndex(x => x.id === componentId);
+                if (id >= 0) {
+                    this.project.components.splice(id, 1);
+                }
+            },
+            onComponentEnabledClick(component) {
+                api.component.setEnabled(component.id, component.enabled).then(env => {
+                    component = env;
+                }).catch(error => {
+                    console.log(error);
+                });
+            },
         }
     }
 </script>

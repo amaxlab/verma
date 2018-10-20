@@ -25,7 +25,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *          "denormalization_context"={"groups"={"project:write"}}
  *     },
  *     itemOperations={
- *           "get"={"normalization_context"={"groups"={"project:read_detail", "environment:read", "project_access:read", "user:read"}}},
+ *           "get"={"normalization_context"={"groups"={"project:read_detail", "environment:read", "project_access:read", "user:read", "component:read"}}},
  *           "put",
  *           "delete"
  *     }
@@ -62,7 +62,6 @@ class Project
     /**
      * @var Component[]
      * @ORM\OneToMany(targetEntity="Component", mappedBy="project")
-     * @ApiSubresource(maxDepth=1)
      * @Groups({"project:read_detail"})
      */
     private $components;

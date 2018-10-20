@@ -5,12 +5,14 @@ namespace App\Entity;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @author Egor Zyuskin <ezyuskin@amaxlab.ru>
  * @ORM\Entity(repositoryClass="App\Repository\ComponentRepository")
+ * @UniqueEntity(fields={"name", "project"}, errorPath="name")
  * @ORM\Table(name="components")
  * @ApiResource(
  *     attributes={
@@ -43,7 +45,7 @@ class Component
      * @var Project
      * @ORM\ManyToOne(targetEntity="Project", inversedBy="components")
      * @ORM\JoinColumn(name="project_id", onDelete="CASCADE", nullable=false)
-     * @Groups({"component:read", "component:write"})
+     * @Groups({"component:write"})
      */
     private $project;
 
