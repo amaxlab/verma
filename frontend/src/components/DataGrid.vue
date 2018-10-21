@@ -6,10 +6,8 @@
                  stacked="md"
                  :items="items"
                  :fields="fields"
-                 :busy.sync="isBusy"
                  :current-page="currentPage"
                  :per-page="perPage"
-                 :filter="filter"
                  :sort-by.sync="sortBy"
                  :sort-desc.sync="sortDesc"
                  :sort-direction="sortDirection"
@@ -39,7 +37,7 @@
 
         </b-table>
 
-        <b-row>
+        <b-row v-if="this.paginationEnabled">
             <b-col md="6">
                 <b-pagination :total-rows="totalRows" :per-page="perPage" v-model="currentPage" class="my-0" />
             </b-col>
@@ -49,18 +47,18 @@
 </template>
 
 <script>
-    import Axios from 'axios';
     import moment from 'moment';
-    import store from '../store';
     import BtnEnabledDisabled from "./BtnEnabledDisabled";
 
     export default {
-        name: 'b-grid',
         components: {BtnEnabledDisabled},
         props: {
             fields: Array,
-            url: String,
-            viewLinkPattern: String,
+            items: Array,
+            paginationEnabled: {
+                type: Boolean,
+                default: false,
+            },
             defaultSortBy: {
                 type: String,
                 default: 'id'
@@ -75,15 +73,12 @@
             },
         },
         data () {
-            // this.loadData();
             return {
-                items: this.loadData,
                 currentPage: 1,
                 perPage: 10,
                 isBusy: false,
                 totalRows: 0,
                 pageOptions: [ 5, 10, 15 ],
-                filter: null,
                 sortBy: this.defaultSortBy,
                 sortDirection: this.defaultSortDirection,
                 sortDesc: this.defaultSortDesc,
@@ -103,38 +98,6 @@
             refresh() {
                 this.$refs.grid.refresh();
             },
-            loadData(ctx) {
-                this.isBusy = true;
-                store.commit('loader/show');
-                const params = {};
-                params.page = ctx.currentPage;
-                params.perPage = ctx.perPage;
-
-                if(ctx.sortBy != null) {
-                    params['order[' + ctx.sortBy + ']'] = ctx.sortDesc ? 'desc' : 'asc';
-                }
-
-                const promise = Axios.get('http://127.0.0.1:8000'+this.url, {
-                    headers: {
-                        Accept: 'application/ld+json',
-                        Authorization: 'bearer '+store.state.session.accessToken
-                    },
-                    params: params
-                });
-
-                return promise.then(r => {
-                    this.isBusy = false;
-                    this.totalRows = r.data['hydra:totalItems'];
-                    store.commit('loader/hide');
-
-                    return r.data['hydra:member'];
-                }).catch(e => {
-                    this.totalRows = 0;
-                    this.isBusy = false;
-                    store.commit('loader/hide');
-                    return [];
-                });
-            }
         }
     }
 </script>

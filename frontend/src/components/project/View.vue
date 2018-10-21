@@ -22,21 +22,7 @@
             </tr>
 
         </table>
-        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
-            <h1 class="h2">Access</h1>
-        </div>
-        <table class="table">
-            <tr>
-                <th>User</th>
-                <th>Role</th>
-                <th>Created At</th>
-            </tr>
-            <tr v-for="access in project.users">
-                <td><Gravatar :email="access.user.email" :size="40"/> {{access.user.username}}</td>
-                <td>{{access.role}}</td>
-                <td>{{moment(access.createdAt).fromNow()}}</td>
-            </tr>
-        </table>
+        <RolesView :project="this.project"></RolesView>
         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
             <h1 class="h2">Environments</h1>
             <div class="btn-toolbar mb-2 mb-md-0">
@@ -99,6 +85,7 @@
     import Gravatar from 'vue-gravatar';
     import moment from 'moment';
     import BackBtn from '../BackBtn';
+    import RolesView from "./role/Viev";
     import CreateEnvironmentModal from "./environment/CreateModal";
     import EditEnvironmentModal from "./environment/EditModal";
     import DeleteEnvironmentModal from "./environment/DeleteModal";
@@ -109,6 +96,7 @@
 
     export default {
         components: {
+            RolesView,
             CreateEnvironmentModal, EditEnvironmentModal, DeleteEnvironmentModal,
             CreateComponentModal, EditComponentModal, DeleteComponentModal,
             BtnEnabledDisabled,

@@ -5,15 +5,17 @@ namespace App\Entity;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @author Egor Zyuskin <ezyuskin@amaxlab.ru>
  * @ORM\Entity(repositoryClass="App\Repository\ProjectAccessRepository")
  * @ORM\Table(name="project_access")
+ * @UniqueEntity(fields={"user_id", "project_id"}, errorPath="user")
  * @ApiResource(
  *     attributes={
- *          "normalization_context"={"groups"={"project_access:read"}},
+ *          "normalization_context"={"groups"={"project_access:read", "user:read"}},
  *          "denormalization_context"={"groups"={"project_access:write"}}
  *     }
  * )
@@ -35,7 +37,7 @@ class ProjectAccess
      * @var User
      * @ORM\ManyToOne(targetEntity="User", inversedBy="projects")
      * @ORM\JoinColumn(name="user_id", onDelete="CASCADE")
-     * @Groups({"project_access:read"})
+     * @Groups({"project_access:read", "project_access:write"})
      */
     private $user;
 
@@ -58,7 +60,7 @@ class ProjectAccess
     /**
      * @var string
      * @ORM\Column(type="string", length=50)
-     * @Groups({"project_access:read"})
+     * @Groups({"project_access:read", "project_access:write"})
      */
     private $role;
 

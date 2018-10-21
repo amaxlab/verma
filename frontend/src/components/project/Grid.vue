@@ -2,7 +2,7 @@
     <div>
         <DeleteModal ref="deleteProjectModal" @projectDeleted="refreshGrid"></DeleteModal>
         <EditModal ref="editProjectModal" @projectDeleted="refreshGrid"></EditModal>
-        <DataGrid
+        <ListDataGrid
                 :fields="[
                 {key:'id', label: 'ID', sortable: true},
                 {key:'name', label: 'Name', sortable: true},
@@ -24,20 +24,20 @@
                     <b-button variant="outline-danger" @click="deleteProject(row.row.item)" v-if="row.row.item.enabled === false"><i class="fa fa-trash"></i></b-button>
                 </b-button-group>
             </template>
-        </DataGrid>
+        </ListDataGrid>
     </div>
 </template>
 <script>
     import api from '@/api/';
     import router from '@/router';
-    import DataGrid from '../DataGrid';
+    import ListDataGrid from '../ListDataGrid';
     import DeleteModal from './DeleteModal';
     import EditModal from "./EditModal";
 
     export default {
         components: {
             EditModal,
-            DataGrid, DeleteModal
+            ListDataGrid, DeleteModal
         },
         methods: {
             refreshGrid() {

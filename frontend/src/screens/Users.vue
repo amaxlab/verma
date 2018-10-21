@@ -2,7 +2,7 @@
     <Page>
         <template slot="content">
             <h1>Users</h1>
-            <DataGrid
+            <ListDataGrid
                     :fields="[
                     {key:'id', label: 'ID'},
                     {key:'username', label: 'Username'},
@@ -15,17 +15,17 @@
                     defaultSortBy="username"
                     :defaultSortDesc="true"
                     @viewClick="viewUser"
-            ></DataGrid>
+            ></ListDataGrid>
         </template>
     </Page>
 </template>
 <script>
     import Page from '../components/Page';
-    import DataGrid from '../components/DataGrid';
+    import ListDataGrid from '../components/ListDataGrid';
 
     export default {
         components: {
-            Page, DataGrid
+            Page, ListDataGrid
         },
         methods: {
             viewUser(item) {

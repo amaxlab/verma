@@ -79,6 +79,7 @@ class CreateConsoleCommand extends Command
             ->setUsername($username)
             ->setPassword($password)
             ->setEmail($email)
+            ->setEnabled(true)
         );
 
         $output->writeln(sprintf('User %s created', $username));
