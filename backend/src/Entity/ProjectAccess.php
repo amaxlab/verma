@@ -12,7 +12,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @author Egor Zyuskin <ezyuskin@amaxlab.ru>
  * @ORM\Entity(repositoryClass="App\Repository\ProjectAccessRepository")
  * @ORM\Table(name="project_access")
- * @UniqueEntity(fields={"user_id", "project_id"}, errorPath="user")
+ * @UniqueEntity(fields={"user", "project"}, errorPath="user")
  * @ApiResource(
  *     attributes={
  *          "normalization_context"={"groups"={"project_access:read", "user:read"}},
